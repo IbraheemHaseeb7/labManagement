@@ -6,12 +6,6 @@ public class Department {
     private Lab labs[] = new Lab[10];
     private PC pc[] = new PC[50];
 
-    {
-        for (int counter = 0; counter < labs.length; counter++) {
-            labs[counter] = new Lab("C-13", new Employee("Lab", "123", "Lab Attendant"), pc);
-        }
-    }
-
     public Department(String name, Employee HOD, Employee labIncharge, Lab[] labs) {
         this.name = name;
         this.HOD = HOD;

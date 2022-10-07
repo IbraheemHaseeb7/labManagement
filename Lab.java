@@ -3,12 +3,6 @@ package lab_assessment_02;
 public class Lab {
     private String name;
     private PC computers[] = new PC[50];
-
-    {
-        for (int counter = 0; counter < computers.length; counter++) {
-            computers[counter] =  new PC("123", "Dell", "1280x720", 8, 520);
-        }
-    }
     private Employee labAttendant;
 
     public String getName() {
