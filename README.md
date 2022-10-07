@@ -1,1 +1,6 @@
-# Lab_Management_FA21-BCS-A
+# Lab Management Task 02
+
+Author:
+
+- Ibraheem Bin Haseeb
+- FA21-BCS-052
