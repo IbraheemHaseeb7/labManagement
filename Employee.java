@@ -40,7 +40,7 @@ public class Employee {
     }
 
     public String toString() {
-        return String.format("Name: %s\nDesignation: %s\nID: %s", this.name, this.designation, this.id);
+        return String.format("\nName: %s\nDesignation: %s\nID: %s\n", this.name, this.designation, this.id);
     }
 
     public Object clone() {

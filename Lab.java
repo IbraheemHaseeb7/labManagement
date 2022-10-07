@@ -4,6 +4,15 @@ public class Lab {
     private String name;
     private PC computers[] = new PC[50];
     private Employee labAttendant;
+    private int pcCounter;
+
+    public void setPcCounter(int pcCounter) {
+        this.pcCounter = pcCounter;
+    }
+
+    public int getPcCounter() {
+        return this.pcCounter;
+    }
 
     public String getName() {
         return name;

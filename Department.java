@@ -3,14 +3,31 @@ package lab_assessment_02;
 public class Department {
     private String name;
     private Employee HOD, labIncharge;
-    private Lab labs[] = new Lab[10];
-    private PC pc[] = new PC[50];
+    private Lab labs[];
+    private int labCounter, numberOfLabs;
 
-    public Department(String name, Employee HOD, Employee labIncharge, Lab[] labs) {
+    public int getNumberOfLabs() {
+        return numberOfLabs;
+    }
+
+    public void setNumberOfLabs(int numberOfLabs) {
+        this.numberOfLabs = numberOfLabs;
+    }
+
+    public int getLabCounter() {
+        return labCounter;
+    }
+
+    public void setLabCounter(int labCounter) {
+        this.labCounter = labCounter;
+    }
+
+    public Department(String name, Employee HOD, Employee labIncharge, Lab[] labs, int numberOfLabs) {
         this.name = name;
         this.HOD = HOD;
         this.labIncharge = labIncharge;
         this.labs = labs;
+        this.numberOfLabs = numberOfLabs;
     }
 
     public Department(Department department) {
@@ -18,6 +35,7 @@ public class Department {
         this.HOD = department.HOD;
         this.labIncharge = department.labIncharge;
         this.labs = department.labs;
+        this.numberOfLabs = department.numberOfLabs;
     }
 
     public String getName() {
@@ -53,11 +71,11 @@ public class Department {
     }
 
     public String toString() {
-        return String.format("Name: %s", this.name);
+        return String.format("Name: %s\nNo. of Labs: %d\n", this.name, this.numberOfLabs) + HOD.toString() + labIncharge.toString();
     }
 
     public Object clone() {
-        return new Department(this.name, this.HOD, this.labIncharge, this.labs);
+        return new Department(this.name, this.HOD, this.labIncharge, this.labs, this.numberOfLabs);
     }
 
     public boolean equals(Object o) {
