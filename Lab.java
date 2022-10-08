@@ -6,6 +6,31 @@ public class Lab {
     private Employee labAttendant;
     private int pcCounter;
 
+
+    private int numberOfComputers;
+
+    public Lab(String name, Employee labAttendant, PC[] computers, int numberOfComputers) {
+        this.name = name;
+        this.labAttendant = labAttendant;
+        this.computers = computers;
+        this.numberOfComputers = numberOfComputers;
+    }
+
+    public Lab(Lab lab) {
+        this.name = lab.name;
+        this.labAttendant = lab.labAttendant;
+        this.computers = lab.computers;
+        this.numberOfComputers = lab.numberOfComputers;
+    }
+
+    public int getNumberOfComputers() {
+        return numberOfComputers;
+    }
+
+    public void setNumberOfComputers(int numberOfComputers) {
+        this.numberOfComputers = numberOfComputers;
+    }
+
     public void setPcCounter(int pcCounter) {
         this.pcCounter = pcCounter;
     }
@@ -16,18 +41,6 @@ public class Lab {
 
     public String getName() {
         return name;
-    }
-
-    public Lab(String name, Employee labAttendant, PC[] computers) {
-        this.name = name;
-        this.labAttendant = labAttendant;
-        this.computers = computers;
-    }
-
-    public Lab(Lab lab) {
-        this.name = lab.name;
-        this.labAttendant = lab.labAttendant;
-        this.computers = lab.computers;
     }
 
     public void setName(String name) {
@@ -51,11 +64,11 @@ public class Lab {
     }
 
     public String toString() {
-        return String.format("Name: %s", this.name);
+        return String.format("Name: %s\nNumber of Computers: %d\n", this.name, this.numberOfComputers) + labAttendant.toString();
     }
 
     public Object clone() {
-        return new Lab(this.name, this.labAttendant, this.computers);
+        return new Lab(this.name, this.labAttendant, this.computers, this.numberOfComputers);
     }
 
     public boolean equals(Object o) {
