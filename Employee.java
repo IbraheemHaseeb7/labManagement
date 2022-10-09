@@ -1,4 +1,3 @@
-package lab_assessment_02;
 
 public class Employee {
     private String name, id, designation;
@@ -48,7 +47,7 @@ public class Employee {
     }
 
     public boolean equals(Object o) {
-        Employee temp = (Employee)o;
+        Employee temp = (Employee) o;
         boolean isResult = false;
 
         if (this.name == temp.name && this.id == temp.id && this.designation == temp.designation) {

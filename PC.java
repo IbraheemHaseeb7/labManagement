@@ -1,4 +1,3 @@
-package lab_assessment_02;
 
 public class PC {
     private String assetID, name, LCDname;
@@ -61,7 +60,8 @@ public class PC {
     }
 
     public String toString() {
-        return String.format("Name: %s\nAsset ID: %s\nLCD: %s\nRAM size: %d\nDisk Size: %d", this.name, this.assetID, this.LCDname, this.RAMsize, this.diskSize);
+        return String.format("Name: %s\nAsset ID: %s\nLCD: %s\nRAM size: %d\nDisk Size: %d", this.name, this.assetID,
+                this.LCDname, this.RAMsize, this.diskSize);
     }
 
     public Object clone() {
@@ -69,10 +69,11 @@ public class PC {
     }
 
     public boolean equals(Object o) {
-        PC temp = (PC)o;
+        PC temp = (PC) o;
         boolean isResult = false;
 
-        if (temp.name == temp.name && temp.LCDname == this.LCDname && this.assetID == temp.assetID && this.RAMsize == temp.RAMsize && this.diskSize == temp.diskSize) {
+        if (temp.name == temp.name && temp.LCDname == this.LCDname && this.assetID == temp.assetID
+                && this.RAMsize == temp.RAMsize && this.diskSize == temp.diskSize) {
             isResult = true;
         } else {
             isResult = false;

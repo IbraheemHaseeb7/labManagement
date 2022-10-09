@@ -1,11 +1,9 @@
-package lab_assessment_02;
 
 public class Lab {
     private String name;
     private PC computers[] = new PC[50];
     private Employee labAttendant;
     private int pcCounter;
-
 
     private int numberOfComputers;
 
@@ -64,7 +62,8 @@ public class Lab {
     }
 
     public String toString() {
-        return String.format("Name: %s\nNumber of Computers: %d\n", this.name, this.numberOfComputers) + labAttendant.toString();
+        return String.format("Name: %s\nNumber of Computers: %d\n", this.name, this.numberOfComputers)
+                + labAttendant.toString();
     }
 
     public Object clone() {
@@ -72,7 +71,7 @@ public class Lab {
     }
 
     public boolean equals(Object o) {
-        Lab temp = (Lab)o;
+        Lab temp = (Lab) o;
         boolean isResult = false;
 
         if (this.name == temp.name && this.labAttendant.equals(temp.labAttendant)) {

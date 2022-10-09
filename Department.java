@@ -1,4 +1,3 @@
-package lab_assessment_02;
 
 public class Department {
     private String name;
@@ -71,7 +70,8 @@ public class Department {
     }
 
     public String toString() {
-        return String.format("Name: %s\nNo. of Labs: %d\n", this.name, this.numberOfLabs) + HOD.toString() + labIncharge.toString();
+        return String.format("Name: %s\nNo. of Labs: %d\n", this.name, this.numberOfLabs) + HOD.toString()
+                + labIncharge.toString();
     }
 
     public Object clone() {
@@ -82,7 +82,8 @@ public class Department {
         Department temp = (Department) o;
         boolean isResult = false;
 
-        if (this.name == temp.name && this.getHOD().equals(temp.getHOD()) && this.getLabIncharge().equals(temp.getLabIncharge())) {
+        if (this.name == temp.name && this.getHOD().equals(temp.getHOD())
+                && this.getLabIncharge().equals(temp.getLabIncharge())) {
             isResult = true;
         } else {
             isResult = false;

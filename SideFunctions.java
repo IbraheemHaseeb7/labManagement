@@ -1,35 +1,35 @@
-package lab_assessment_02;
+
 import java.util.Scanner;
 
 public class SideFunctions {
 
-        Scanner stringInput = new Scanner(System.in);
-        Scanner simpleInput = new Scanner(System.in);
+    Scanner stringInput = new Scanner(System.in);
+    Scanner simpleInput = new Scanner(System.in);
 
-        // inner classes to merge 3 functions into one
-        class LabSearch {
-            int index;
-            Lab lab;
-            boolean isFound;
+    // inner classes to merge 3 functions into one
+    class LabSearch {
+        int index;
+        Lab lab;
+        boolean isFound;
 
-            public LabSearch(int index, boolean isFound, Lab lab) {
-                this.index = index;
-                this.isFound = isFound;
-                this.lab = lab;
-            }
+        public LabSearch(int index, boolean isFound, Lab lab) {
+            this.index = index;
+            this.isFound = isFound;
+            this.lab = lab;
         }
+    }
 
-        class PCsearch {
-            int index;
-            PC pc;
-            boolean isFound;
+    class PCsearch {
+        int index;
+        PC pc;
+        boolean isFound;
 
-            public PCsearch(int index, boolean isFound, PC pc) {
-                this.index = index;
-                this.isFound = isFound;
-                this.pc = pc;
-            }
+        public PCsearch(int index, boolean isFound, PC pc) {
+            this.index = index;
+            this.isFound = isFound;
+            this.pc = pc;
         }
+    }
 
     public Lab takeLab() {
         // public Lab(String name, Employee labAttendant, PC[] computers) {
@@ -84,21 +84,23 @@ public class SideFunctions {
         return new Department(name, hod, labIncharge, new Lab[size], size);
     }
 
-    // deleting an element from the lab array and returning new array with deleted element
+    // deleting an element from the lab array and returning new array with deleted
+    // element
     public Lab[] deleteLab(String name, Lab[] lab, int size) {
 
-            LabSearch found = searchLab(name, lab, size);
+        LabSearch found = searchLab(name, lab, size);
 
-            for (int counter = found.index; counter < size - 1; counter++) {
-                Lab temp = lab[counter + 1];
+        for (int counter = found.index; counter < size - 1; counter++) {
+            Lab temp = lab[counter + 1];
 
-                lab[counter] = temp;
-            }
+            lab[counter] = temp;
+        }
 
-            return lab;
+        return lab;
     }
 
-    // deleting an element from the lab array and returning new array with deleted element
+    // deleting an element from the lab array and returning new array with deleted
+    // element
     public PC[] deletePC(String id, PC[] pc, int size) {
 
         PCsearch found = searchPC(id, pc, size);
@@ -160,5 +162,9 @@ public class SideFunctions {
 
     public void println(String data) {
         System.out.println(data);
+    }
+
+    public int takeInt() {
+        return simpleInput.nextInt();
     }
 }
