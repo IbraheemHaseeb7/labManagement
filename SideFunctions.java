@@ -1,3 +1,4 @@
+package lab_assessment_02;
 
 import java.util.Scanner;
 

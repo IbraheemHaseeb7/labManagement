@@ -1,3 +1,4 @@
+package lab_assessment_02;
 
 public class PC {
     private String assetID, name, LCDname;
@@ -60,7 +61,7 @@ public class PC {
     }
 
     public String toString() {
-        return String.format("Name: %s\nAsset ID: %s\nLCD: %s\nRAM size: %d\nDisk Size: %d", this.name, this.assetID,
+        return String.format("\nName: %s\nAsset ID: %s\nLCD: %s\nRAM size: %dGB\nDisk Size: %dGB\n", this.name, this.assetID,
                 this.LCDname, this.RAMsize, this.diskSize);
     }
 

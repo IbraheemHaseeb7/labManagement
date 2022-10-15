@@ -1,3 +1,4 @@
+package lab_assessment_02;
 
 public class Lab {
     private String name;
