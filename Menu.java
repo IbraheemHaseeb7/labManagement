@@ -1,6 +1,7 @@
-package lab_assessment_02;
+package src.lab_assessment_02;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -14,16 +15,19 @@ public class Menu {
     FileFunctions depf = new FileFunctions();
     FileFunctions labf = new FileFunctions();
     FileFunctions pcf = new FileFunctions();
-    String menuString = "";
+    String menuString = mainMenuString();
 
     {
         try {
-            depf.createFile("dep.dat");
-            labf.createFile("lab.dat");
-            pcf.createFile("pc.dat");
+            depf.createFile("D:\\JavaPractice\\lab_assessment_02\\src\\lab_assessment_02\\data\\dep.dat");
+            labf.createFile("D:\\JavaPractice\\lab_assessment_02\\src\\lab_assessment_02\\data\\lab.dat");
+            pcf.createFile("D:\\JavaPractice\\lab_assessment_02\\src\\lab_assessment_02\\data\\pc.dat");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Menu() throws IOException {
     }
 
     public String mainMenuString() {
@@ -62,15 +66,13 @@ public class Menu {
                 case 11:
                     mf.createMultipleComputers();
                     break;
-                default:
-                    sf.println("Value could not be found...");
-
             }
 
             menuString = mainMenuString() + subMenuString() + computersMenuString();
 
             // Lab menu here
-        } else if (mainMenu && subMenu) {
+        }
+        if (mainMenu && subMenu) {
 
             switch (temp) {
                 case 2:
@@ -85,14 +87,13 @@ public class Menu {
                 case 10:
                     mf.deleteOneLab();
                     break;
-                default:
-                    sf.println("Value could not be found...");
             }
 
             menuString = mainMenuString() + subMenuString() + computersMenuString();
 
             // Department menu here
-        } else if (mainMenu) {
+        }
+        if (mainMenu) {
 
             // taking input for new department
             if (temp == 1) {
@@ -100,22 +101,24 @@ public class Menu {
             } else if (temp == 4) {
                 sf.println(mf.getDepartment().toString());
             }
-            menuString = mainMenuString() + subMenuString();
+            menuString = mainMenuString() + subMenuString() + computersMenuString();
         }
 
         main = mf.getDepartment();
         return menuString;
     }
 
-    public Menu fetchData() throws FileNotFoundException {
+    public Menu fetchData() throws IOException {
 
         // fetching data from department file
-        String depData[] = depf.readFromFile(1);
+        String depData[] = depf.readFromFile(5);
         for (String dep : depData) {
+
             if (dep != null) {
                 main = new Department(dep.split("_")[0], new Employee(dep.split("_")[1], dep.split("_")[2], dep.split("_")[3]), new Employee(dep.split("_")[4], dep.split("_")[5], dep.split("_")[6]), new Lab[Integer.parseInt(dep.split("_")[8])], Integer.parseInt(dep.split("_")[8]));
 
                 main.setLabCounter(Integer.parseInt(dep.split("_")[7]));
+
 
                 // allowing main menu functions to work
                 mainMenu = true;
@@ -126,38 +129,68 @@ public class Menu {
                 int labCounter = 0;
                 for (String lab : labData) {
                     if (lab != null) {
-                        main.getLabs()[labCounter++] = new Lab(lab.split("_")[0], new Employee(lab.split("_")[1], lab.split("_")[2], lab.split("_")[3]), new PC[Integer.parseInt(lab.split("_")[4])], Integer.parseInt(lab.split("_")[5]));
+                        main.getLabs()[labCounter] = new Lab(lab.split("_")[0], new Employee(lab.split("_")[1], lab.split("_")[2], lab.split("_")[3]), new PC[Integer.parseInt(lab.split("_")[5])], Integer.parseInt(lab.split("_")[5]));
 
+                        main.getLabs()[labCounter].setPcCounter(Integer.parseInt(lab.split("_")[4]));
 
                         // allowing lab menu functions to work
                         subMenu = true;
                         menuString = mainMenuString() + subMenuString();
 
                         //reading the pc data
+                        String pcData[] = pcf.readFromFile(main.getLabs()[labCounter].getPcCounter());
+                        int pcCounter = 0;
+
+                        for (String pc : pcData) {
+                            if (pc != null) {
+
+                                main.getLabs()[labCounter].getComputers()[pcCounter++] = new PC(pc.split("_")[0], pc.split("_")[1], pc.split("_")[2], Integer.parseInt(pc.split("_")[3]), Integer.parseInt(pc.split("_")[4]));
+
+                                // allowing pc menu to work
+                                computersMenu = true;
+                                menuString = mainMenuString() + subMenuString() + computersMenuString();
+                            }
+                        }
+                        labCounter++;
                     }
                 }
             }
         }
+
         // giving data to menu functions to process
         mf.setDepartment(main);
         return this;
     }
 
     public Menu writeData() throws IOException {
+        FileWriter depw = new FileWriter("D:\\JavaPractice\\lab_assessment_02\\src\\lab_assessment_02\\data\\dep.dat");
+        FileWriter labw = new FileWriter("D:\\JavaPractice\\lab_assessment_02\\src\\lab_assessment_02\\data\\lab.dat");
+        FileWriter pcw = new FileWriter("D:\\JavaPractice\\lab_assessment_02\\src\\lab_assessment_02\\data\\pc.dat");
+
 
         // writing into the department file
-        depf.writeIntoFile(String.format("DEP NAME\tEMP NAME\tEMP DES\tEMP ID\tEMP NAME\tEMP DES\tEMP ID\tLAB COUNTER\tNO OF LABS\n%s_%s_%s_%s_%s_%s_%s_%d_%d", main.getName(), main.getHOD().getName(), main.getHOD().getDesignation(), main.getHOD().getId(), main.getLabIncharge().getName(), main.getLabIncharge().getDesignation(), main.getLabIncharge().getId(), main.getLabCounter(), main.getNumberOfLabs()));
+        depw.write(String.format("%s_%s_%s_%s_%s_%s_%s_%d_%d", main.getName(), main.getHOD().getName(), main.getHOD().getDesignation(), main.getHOD().getId(), main.getLabIncharge().getName(), main.getLabIncharge().getDesignation(), main.getLabIncharge().getId(), main.getLabCounter(), main.getNumberOfLabs()));
+//        depf.writeIntoFile(depw, String.format("%s_%s_%s_%s_%s_%s_%s_%d_%d", main.getName(), main.getHOD().getName(), main.getHOD().getDesignation(), main.getHOD().getId(), main.getLabIncharge().getName(), main.getLabIncharge().getDesignation(), main.getLabIncharge().getId(), main.getLabCounter(), main.getNumberOfLabs()));
 
         // writing into the labs file
         for (int counter = 0; counter < main.getLabCounter(); counter++) {
 
-            labf.writeIntoFile(String.format("%s_%s_%s_%s_%d_%d\n", main.getLabs()[counter].getName(), main.getLabs()[counter].getLabAttendant().getName(), main.getLabs()[counter].getLabAttendant().getDesignation(), main.getLabs()[counter].getLabAttendant().getId(), main.getLabs()[counter].getPcCounter(), main.getLabs()[counter].getNumberOfComputers()));
+            labw.write(String.format("%s_%s_%s_%s_%d_%d\n", main.getLabs()[counter].getName(), main.getLabs()[counter].getLabAttendant().getName(), main.getLabs()[counter].getLabAttendant().getId(), main.getLabs()[counter].getLabAttendant().getDesignation(), main.getLabs()[counter].getPcCounter(), main.getLabs()[counter].getNumberOfComputers()));
+
+//            labf.writeIntoFile(labw, String.format("%s_%s_%s_%s_%d_%d\n", main.getLabs()[counter].getName(), main.getLabs()[counter].getLabAttendant().getName(), main.getLabs()[counter].getLabAttendant().getId(), main.getLabs()[counter].getLabAttendant().getDesignation(), main.getLabs()[counter].getPcCounter(), main.getLabs()[counter].getNumberOfComputers()));
 
             // writing into the pc file
             for (int innerCounter = 0; innerCounter < main.getLabs()[counter].getPcCounter(); innerCounter++) {
-                pcf.writeIntoFile(String.format("%s_%s_%s_%d_%d\n", main.getLabs()[counter].getComputers()[innerCounter].getName(), main.getLabs()[counter].getComputers()[innerCounter].getAssetID(), main.getLabs()[counter].getComputers()[innerCounter].getLCDname(), main.getLabs()[counter].getComputers()[innerCounter].getRAMsize(), main.getLabs()[counter].getComputers()[innerCounter].getDiskSize()));
+
+                pcw.write(String.format("%s_%s_%s_%d_%d\n", main.getLabs()[counter].getComputers()[innerCounter].getAssetID(), main.getLabs()[counter].getComputers()[innerCounter].getName(), main.getLabs()[counter].getComputers()[innerCounter].getLCDname(), main.getLabs()[counter].getComputers()[innerCounter].getRAMsize(), main.getLabs()[counter].getComputers()[innerCounter].getDiskSize()));
+
+//                pcf.writeIntoFile(pcw, String.format("%s_%s_%s_%d_%d\n", main.getLabs()[counter].getComputers()[innerCounter].getAssetID(), main.getLabs()[counter].getComputers()[innerCounter].getName(), main.getLabs()[counter].getComputers()[innerCounter].getLCDname(), main.getLabs()[counter].getComputers()[innerCounter].getRAMsize(), main.getLabs()[counter].getComputers()[innerCounter].getDiskSize()));
             }
         }
+
+        depw.close();
+        labw.close();
+        pcw.close();
 
         return this;
     }
@@ -175,7 +208,7 @@ public class Menu {
             } else if (temp == 1) {
                 mainMenu = true;
             } else if (!mainMenu && !subMenu && !computersMenu) {
-                printString("You enter a wrong value");
+                printString("You entered a wrong value");
             }
 
             // System.out.println(temp + " Menu: " + mainMenu + " Sub Menu: " + subMenu + "
@@ -184,10 +217,6 @@ public class Menu {
         } while (temp != -1);
 
         return this;
-    }
-
-    public void showDepartment() {
-        sf.println(main.toString());
     }
 
     public void printString(String str) {

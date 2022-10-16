@@ -1,12 +1,6 @@
-package lab_assessment_02;
-
-import java.io.*;
+package src.lab_assessment_02;
 
 public class MenuFunctions {
-
-        File file;
-        FileWriter fw;
-        BufferedWriter bw;
     private SideFunctions sf = new SideFunctions();
     private Department main;
 

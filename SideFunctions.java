@@ -1,4 +1,4 @@
-package lab_assessment_02;
+package src.lab_assessment_02;
 
 import java.util.Scanner;
 
@@ -127,6 +127,7 @@ public class SideFunctions {
                 pc = array[counter];
                 isFound = true;
                 index = counter;
+                break;
             }
         }
 

@@ -1,4 +1,4 @@
-package lab_assessment_02;
+package src.lab_assessment_02;
 
 public class Department {
     private String name;
