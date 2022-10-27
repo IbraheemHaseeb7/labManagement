@@ -1,6 +1,7 @@
 package src.lab_assessment_02;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class SideFunctions {
 
@@ -42,7 +43,12 @@ public class SideFunctions {
         print("Enter how many computers should be in this lab: ");
         int size = simpleInput.nextInt();
 
-        return new Lab(name, emp, new PC[size], size);
+        println("Which softwares do you want to install in the computers of this lab(Enter index number and -1 to end)...");
+        new Lab().showSoftwares();
+
+        String[] softwares = converter(takeSoftwares());
+
+        return new Lab(name, emp, new PC[size], size, softwares);
     }
 
     public Employee takeEmployee() {
@@ -137,7 +143,7 @@ public class SideFunctions {
     // searching for Lab
     public LabSearch searchLab(String name, Lab[] array, int size) {
 
-        Lab lab = new Lab("", new Employee("", "", ""), new PC[5], 0);
+        Lab lab = new Lab("", new Employee("", "", ""), new PC[5], 0 , new String[5]);
         int index = 0;
         boolean isFound = false;
 
@@ -156,6 +162,59 @@ public class SideFunctions {
     // general methods below used for various purposes
     public String takeString() {
         return stringInput.nextLine();
+    }
+
+    public ArrayList<String> takeSoftwares() {
+        int option;
+
+        ArrayList<String> softwares = new ArrayList<>();
+
+        while (true) {
+
+            option = takeInt();
+
+            if (option == -1 || option >= new Lab().getSoftwares().length)
+                break;
+
+            if (checkExistence(softwares, searchSoftware(option))) {
+                System.out.println("Software already added to list...");
+            } else {
+                softwares.add(searchSoftware(option));
+            }
+
+            println("");
+            new Lab().showSoftwares();
+        }
+        return softwares;
+    }
+
+    public boolean checkExistence(ArrayList<String> array, String value) {
+
+        boolean isCheck = false;
+
+        for (String soft : array) {
+            if (value.equals(soft)) {
+                isCheck = true;
+                break;
+            }
+        }
+
+        return isCheck;
+    }
+
+    public String[] converter(ArrayList<String> array) {
+
+        String[] temp = new String[array.size()];
+
+        for (int counter = 0; counter < array.size(); counter++) {
+            temp[counter] = array.get(counter);
+        }
+
+        return temp;
+    }
+
+    public String searchSoftware(int option) {
+        return new Lab().getSoftwares()[option - 1];
     }
 
     public void print(String data) {

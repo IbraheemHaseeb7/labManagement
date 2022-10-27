@@ -61,6 +61,12 @@ public class MenuFunctions {
 
                     for (int counter = 0; counter < found.lab.getPcCounter(); counter++) {
                         sf.println(found.lab.getComputers()[counter].toString());
+
+                        sf.println("Installed Softwares on the System...");
+
+                        for (String software : found.lab.getInstalledSoftwares()) {
+                            sf.println(software);
+                        }
                     }
                     sf.println("=========================================");
                 }

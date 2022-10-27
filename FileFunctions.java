@@ -9,48 +9,63 @@ public class FileFunctions {
     int counter = 0;
         static int sum;
 
-    public void createFile(String fileName) throws IOException {
-        File file = new File(fileName);
+    public void createFile(String fileName) {
 
-        if (file.exists()) {
-            System.out.println("File already exists");
-        } else {
-            file.createNewFile();
-            System.out.println("New File Created!");
-        }
+        try {
 
-        this.fileName = fileName;
-    }
+            File file = new File(fileName);
 
-    public void writeIntoFile(FileWriter fw, String data) throws IOException {
-
-        fw = new FileWriter(this.fileName, false);
-        fw.write(data);
-    }
-
-    public String[] readFromFile(int size) throws IOException {
-
-        String data[] = new String[size];
-        File read = new File(this.fileName);
-        Scanner file = new Scanner(read);
-
-        sum = sum + counter;
-
-        if (counter != 0) {
-            for (int i = 0; i < sum; i++) {
-                file.nextLine();
+            if (file.exists()) {
+                System.out.println("File already exists");
+            } else {
+                file.createNewFile();
+                System.out.println("New File Created!");
             }
+
+            this.fileName = fileName;
+        } catch (Exception e) {
+            System.out.println("Some unknown error occurred...");
         }
 
-        counter = 0;
+    }
 
-        while (file.hasNextLine() && counter < size) {
-            data[counter++] = file.nextLine();
+    public void writeIntoFile(FileWriter fw, String data) {
+        try {
+            fw = new FileWriter(this.fileName, false);
+            fw.write(data);
+        } catch (Exception e) {
+            System.out.println("Some error occurred hence exited without writing");
         }
+    }
 
-        file.close();
+    public String[] readFromFile(int size) {
 
-        return data;
+        try {
+            String data[] = new String[size];
+            File read = new File(this.fileName);
+            Scanner file = new Scanner(read);
+
+            sum = sum + counter;
+
+            if (counter != 0) {
+                for (int i = 0; i < sum; i++) {
+                    file.nextLine();
+                }
+            }
+
+            counter = 0;
+
+            while (file.hasNextLine() && counter < size) {
+                data[counter++] = file.nextLine();
+            }
+
+            file.close();
+
+            return data;
+        } catch (Exception e) {
+            System.out.println("Some error occurred so nothing was read...");
+        }
+        return new String[10];
     }
 
     // side testing functions

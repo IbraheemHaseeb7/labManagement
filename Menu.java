@@ -3,6 +3,7 @@ package src.lab_assessment_02;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -22,7 +23,7 @@ public class Menu {
             depf.createFile("D:\\JavaPractice\\lab_assessment_02\\src\\lab_assessment_02\\data\\dep.dat");
             labf.createFile("D:\\JavaPractice\\lab_assessment_02\\src\\lab_assessment_02\\data\\lab.dat");
             pcf.createFile("D:\\JavaPractice\\lab_assessment_02\\src\\lab_assessment_02\\data\\pc.dat");
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -129,7 +130,19 @@ public class Menu {
                 int labCounter = 0;
                 for (String lab : labData) {
                     if (lab != null) {
-                        main.getLabs()[labCounter] = new Lab(lab.split("_")[0], new Employee(lab.split("_")[1], lab.split("_")[2], lab.split("_")[3]), new PC[Integer.parseInt(lab.split("_")[5])], Integer.parseInt(lab.split("_")[5]));
+
+//                        System.out.println(Integer.parseInt(lab.split("_")[6]));
+                        ArrayList<String> softwares = new ArrayList<>();
+
+                        if (Integer.parseInt(lab.split("_")[6]) > 0) {
+                            for (int i = 0; i < Integer.parseInt(lab.split("_")[6]); i++) {
+                                softwares.add(lab.split("_")[i + 7]);
+                            }
+                        }
+
+                        String[] softs = sf.converter(softwares);
+
+                        main.getLabs()[labCounter] = new Lab(lab.split("_")[0], new Employee(lab.split("_")[1], lab.split("_")[2], lab.split("_")[3]), new PC[Integer.parseInt(lab.split("_")[5])], Integer.parseInt(lab.split("_")[5]), softs);
 
                         main.getLabs()[labCounter].setPcCounter(Integer.parseInt(lab.split("_")[4]));
 
@@ -170,21 +183,25 @@ public class Menu {
 
         // writing into the department file
         depw.write(String.format("%s_%s_%s_%s_%s_%s_%s_%d_%d", main.getName(), main.getHOD().getName(), main.getHOD().getDesignation(), main.getHOD().getId(), main.getLabIncharge().getName(), main.getLabIncharge().getDesignation(), main.getLabIncharge().getId(), main.getLabCounter(), main.getNumberOfLabs()));
-//        depf.writeIntoFile(depw, String.format("%s_%s_%s_%s_%s_%s_%s_%d_%d", main.getName(), main.getHOD().getName(), main.getHOD().getDesignation(), main.getHOD().getId(), main.getLabIncharge().getName(), main.getLabIncharge().getDesignation(), main.getLabIncharge().getId(), main.getLabCounter(), main.getNumberOfLabs()));
+        depf.writeIntoFile(depw, String.format("%s_%s_%s_%s_%s_%s_%s_%d_%d", main.getName(), main.getHOD().getName(), main.getHOD().getDesignation(), main.getHOD().getId(), main.getLabIncharge().getName(), main.getLabIncharge().getDesignation(), main.getLabIncharge().getId(), main.getLabCounter(), main.getNumberOfLabs()));
 
         // writing into the labs file
         for (int counter = 0; counter < main.getLabCounter(); counter++) {
 
-            labw.write(String.format("%s_%s_%s_%s_%d_%d\n", main.getLabs()[counter].getName(), main.getLabs()[counter].getLabAttendant().getName(), main.getLabs()[counter].getLabAttendant().getId(), main.getLabs()[counter].getLabAttendant().getDesignation(), main.getLabs()[counter].getPcCounter(), main.getLabs()[counter].getNumberOfComputers()));
+            labw.write(String.format("%s_%s_%s_%s_%d_%d", main.getLabs()[counter].getName(), main.getLabs()[counter].getLabAttendant().getName(), main.getLabs()[counter].getLabAttendant().getId(), main.getLabs()[counter].getLabAttendant().getDesignation(), main.getLabs()[counter].getPcCounter(), main.getLabs()[counter].getNumberOfComputers()));
 
-//            labf.writeIntoFile(labw, String.format("%s_%s_%s_%s_%d_%d\n", main.getLabs()[counter].getName(), main.getLabs()[counter].getLabAttendant().getName(), main.getLabs()[counter].getLabAttendant().getId(), main.getLabs()[counter].getLabAttendant().getDesignation(), main.getLabs()[counter].getPcCounter(), main.getLabs()[counter].getNumberOfComputers()));
+            labw.write("_" + main.getLabs()[counter].getInstalledSoftwares().length);
+
+            for (String software : main.getLabs()[counter].getInstalledSoftwares()) {
+                labw.write( "_" + software);
+            }
+
+            labw.write("\n");
 
             // writing into the pc file
             for (int innerCounter = 0; innerCounter < main.getLabs()[counter].getPcCounter(); innerCounter++) {
 
                 pcw.write(String.format("%s_%s_%s_%d_%d\n", main.getLabs()[counter].getComputers()[innerCounter].getAssetID(), main.getLabs()[counter].getComputers()[innerCounter].getName(), main.getLabs()[counter].getComputers()[innerCounter].getLCDname(), main.getLabs()[counter].getComputers()[innerCounter].getRAMsize(), main.getLabs()[counter].getComputers()[innerCounter].getDiskSize()));
-
-//                pcf.writeIntoFile(pcw, String.format("%s_%s_%s_%d_%d\n", main.getLabs()[counter].getComputers()[innerCounter].getAssetID(), main.getLabs()[counter].getComputers()[innerCounter].getName(), main.getLabs()[counter].getComputers()[innerCounter].getLCDname(), main.getLabs()[counter].getComputers()[innerCounter].getRAMsize(), main.getLabs()[counter].getComputers()[innerCounter].getDiskSize()));
             }
         }
 
